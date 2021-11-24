@@ -1,10 +1,7 @@
 version: '3'
 
-volumes:
-  traefik-ssl-certs:
-    driver: local
-
 services:
+
   traefik:
     image: "traefik:v2.5"
     container_name: "traefik"
@@ -17,3 +14,21 @@ services:
       - /etc/traefik:/etc/traefik
       - traefik-ssl-certs:/ssl-certs
       - /var/run/docker.sock:/var/run/docker.sock:ro
+
+  nginx:
+    image: nginx
+    ports:
+       - "81:80"  
+       - "444:443"         
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.nginx.entrypoints=web,websecure'
+      - 'traefik.http.routers.nginx.rule=Host("pruebas.labarta.xyz")'
+      - 'traefik.http.routers.nginx.tls=true'     
+      - 'traefik.http.routers.nginx.tls.certresolver=production'   
+
+volumes:
+  traefik-ssl-certs:
+    driver: local
+    
+    
