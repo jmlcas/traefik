@@ -16,10 +16,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
   nginx:
-    image: nginx
-    ports:
-       - "81:80"  
-       - "444:443"         
+    image: nginx 
     labels:
       - 'traefik.enable=true'
       - 'traefik.http.routers.nginx.entrypoints=web,websecure'
