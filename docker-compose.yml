@@ -20,7 +20,7 @@ services:
     labels:
       - 'traefik.enable=true'
       - 'traefik.http.routers.nginx.entrypoints=web,websecure'
-      - 'traefik.http.routers.nginx.rule=Host("tudominio.com")'
+      - 'traefik.http.routers.nginx.rule=Host("tudominio.com")'  # ATENCION -Cambiar por tu dominio ó subdominio correcto
       - 'traefik.http.routers.nginx.tls=true'     
       - 'traefik.http.routers.nginx.tls.certresolver=production'   
 
