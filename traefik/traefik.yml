@@ -38,32 +38,28 @@ entryPoints:
     address: :443
 
 # Certificates configuration
-# ---
-# TODO: Custmoize your Cert Resolvers and Domain settings
-# 
+
 certificatesResolvers:
 # LET'S ENCRYPT:
 # ---
 # 
   staging:
     acme:
-      email: your-email@example.com  # TODO: Change this to your email
+      email: tu-email@dominio.com  # ATENCION -Cambiar por tu email correcto
       storage: /ssl-certs/acme.json
       caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
       httpChallenge:
         entryPoint: web
   production:
     acme:
-      email: your-email@example.com  # TODO: Change this to your email
+      email: tu-email@dominio.com  # ATENCION -Cambiar por tu email correcto
       storage: /ssl-certs/acme.json
       caServer: "https://acme-v02.api.letsencrypt.org/directory"
       httpChallenge:
         entryPoint: web
 
 # Provider Configuration
-# ---
-# TODO: Customize your Provider Settings if needed
-# 
+
 providers:
 # DOCKER:
 # ---
