@@ -1,29 +1,29 @@
-version: '3'
-
 services:
 
   traefik:
-    image: "traefik:v2.5"
-    container_name: "traefik"
+    image: traefik:v3.1.5
+    container_name: traefik
+    restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
-      # (Optional) Expose Dashboard
-      - "8080:8080"  # Don't do this in production!
+      - "8080:8080"  
     volumes:
       - ./traefik/:/etc/traefik/
       - traefik-ssl-certs:/ssl-certs
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
   nginx:
-    image: nginx 
+    image: nginx
+    container_name: nginx
+    restart: unless-stopped
     labels:
       - 'traefik.enable=true'
       - 'traefik.http.routers.nginx.entrypoints=web,websecure'
       - 'traefik.http.routers.nginx.rule=Host("tudominio.com")'  # ATENCION -Cambiar por tu dominio ó subdominio correcto
       - 'traefik.http.routers.nginx.tls=true'     
       - 'traefik.http.routers.nginx.tls.certresolver=production'   
-
+     
 volumes:
   traefik-ssl-certs:
     driver: local
