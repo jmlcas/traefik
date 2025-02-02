@@ -12,36 +12,27 @@ api:
 entryPoints:
   web:
     address: :80
-
   websecure:
     address: :443
 
-# Certificates configuration
-
 certificatesResolvers:
 # LET'S ENCRYPT:
-# ---
-# 
   staging:
     acme:
-      email: tu-email@dominio.com  # ATENCION -Cambiar por tu email correcto
+      email: tuemail@dominio.com  # ATENCION -Cambiar por tu email correcto
       storage: /ssl-certs/acme.json
       caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
       httpChallenge:
         entryPoint: web
+        
   production:
     acme:
-      email: tu-email@dominio.com  # ATENCION -Cambiar por tu email correcto
+      email: tuemail@dominio.com  # ATENCION -Cambiar por tu email correcto
       storage: /ssl-certs/acme.json
       caServer: "https://acme-v02.api.letsencrypt.org/directory"
       httpChallenge:
         entryPoint: web
 
-# Provider Configuration
-
 providers:
-# DOCKER:
-# ---
-#
   docker:
     exposedByDefault: false  # Default is true
