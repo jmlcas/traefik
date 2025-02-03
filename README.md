@@ -24,3 +24,4 @@ networks:
   proxy:
     external: true
 ```
+Cambiar "nombre-app" por el que corresponda al servicio.
