@@ -4,37 +4,42 @@ services:
     image: traefik:latest
     container_name: traefik
     restart: unless-stopped
-    security_opt:
-      - no-new-privileges:true
+    command:
+      - "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=true"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge=true"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.myresolver.acme.email=tu-email@gmail.com"           # Poner un e-mail válido
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
     ports:
-      - "80:80"
-      - "443:443"
-      - "8080:8080"
+      - 80:80
+      - 443:443
+      - 8080:8080
     networks:
       - proxy
-    environment:
-      - TZ=Europe/Madrid    
     volumes:
-      - ./traefik/traefik.yml:/etc/traefik/traefik.yml       
-      - traefik-ssl-certs:/ssl-certs
       - /var/run/docker.sock:/var/run/docker.sock
+      - /docker/letsencrypt:/letsencrypt
 
   nginx:
-    image: nginx
+    image: nginx    
     container_name: nginx
     restart: unless-stopped
-    labels:
-      - 'traefik.enable=true'
-      - 'traefik.http.routers.nginx.entrypoints=web,websecure'
-      - 'traefik.http.routers.nginx.rule=Host("tudominio.com")'  # ATENCION -Cambiar por tu dominio ó subdominio correcto
-      - 'traefik.http.routers.nginx.tls=true'
-      - 'traefik.http.routers.nginx.tls.certresolver=production'
     networks:
       - proxy
-     
-volumes:
-  traefik-ssl-certs:
-    driver: local
+    labels:
+      - traefik.enable=true
+      - traefik.port=80
+      - traefik.http.routers.nginx.rule=Host(`tudominio.com`)    # Poner un dominio válido y redirigir los DNS
+      - traefik.http.routers.nginx.entrypoints=websecure
+      - traefik.http.routers.nginx.tls=true
+      - traefik.http.routers.nginx.tls.certresolver=myresolver
 
 networks:
   proxy:
