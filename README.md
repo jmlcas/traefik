@@ -1,4 +1,4 @@
-# traefik
+# Traefik
 
 Ver en "localhost:8080"
 
