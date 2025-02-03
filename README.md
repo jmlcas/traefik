@@ -22,6 +22,5 @@ Debes poner un dominio válido en docker-compose.yml línea 39 ( Y con DNS redir
 
 networks:
   proxy:
-    external: true
 ```
 Cambiar "nombre-app" por el que corresponda al servicio.
