@@ -15,7 +15,7 @@ services:
     environment:
       - TZ=Europe/Madrid    
     volumes:
-      - ./traefik/:/etc/traefik/
+      - ./traefik/traefik.yml:/traefik.yml:ro       
       - traefik-ssl-certs:/ssl-certs
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
