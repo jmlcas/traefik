@@ -11,16 +11,17 @@ Debes poner un dominio válido en docker-compose.yml línea 39 ( Y con DNS redir
 ### Para añadir otras aplicaciones:
 ```
     networks:
-      - proxy
+      - traefik_proxy
     labels:
       - traefik.enable=true
-      - traefik.port=8000       # Poner el puerto que corresponda 
-      - traefik.http.routers.nombre-app.rule=Host(`tudominio.com`)    # Poner un dominio válido y redirigir los DNS
-      - traefik.http.routers.nombre-app.entrypoints=websecure
+      - traefik.http.services.nombre-app.loadbalancer.server.port=80   # Poner el puerto interno que corresponda 
+      - traefik.http.routers.nombre-app.rule=Host(`tudominio.com`)     # Poner un dominio válido y redirigir los DNS
+      - traefik.http.routers.nombre-app.entrypoints=web,websecure
       - traefik.http.routers.nombre-app.tls=true
       - traefik.http.routers.nombre-app.tls.certresolver=myresolver
 
 networks:
-  proxy:
+  traefik_proxy:
+    external: true 
 ```
 Cambiar "nombre-app" por el que corresponda al servicio.
